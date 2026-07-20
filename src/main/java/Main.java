@@ -1,19 +1,29 @@
-import org.postgresql.ds.PGSimpleDataSource;
+
+import java.util.Optional;
 
 public class Main {
 
     static void main(String[] args) {
 
         EmployeeDAO employeeDAO = new EmployeeDAO();
-        employeeDAO.addEmployee("name1", 20, "worker", 100);
-        employeeDAO.addEmployee("name2", 30, "master", 200);
-        employeeDAO.addEmployee("name3", 40, "engineer", 300);
-        employeeDAO.addEmployee("name4", 50, "director", 400);
 
-        employeeDAO.updateEmployee(2, "newName", 35, "master", 250);
+        try{
+            Optional<Employee> optionalEmployee = employeeDAO.getById(1);
+            if(optionalEmployee.isPresent()){
+                Employee employee = optionalEmployee.get();
+                employee.setSalary(1000);
+                employeeDAO.update(employee);
+            }
+        } catch (DataProcessingException ex){
+            System.err.println(ex.getMessage());
+            ex.printStackTrace();
+        }
 
-        employeeDAO.deleteEmployee(2);
-
-        employeeDAO.getEmployeeById(3);
+        try{
+            employeeDAO.deleteById(3);
+        } catch (DataProcessingException ex){
+            System.err.println(ex.getMessage());
+            ex.printStackTrace();
+        }
     }
 }
