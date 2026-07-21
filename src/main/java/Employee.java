@@ -1,6 +1,6 @@
 public class Employee {
 
-    private int id;
+    private Integer id;
     private String name;
     private int age;
     private String position;
@@ -20,7 +20,7 @@ public class Employee {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

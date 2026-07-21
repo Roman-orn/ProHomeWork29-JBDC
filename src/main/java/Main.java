@@ -7,21 +7,24 @@ public class Main {
 
         EmployeeDAO employeeDAO = new EmployeeDAO();
 
-        try{
-            Optional<Employee> optionalEmployee = employeeDAO.getById(1);
-            if(optionalEmployee.isPresent()){
-                Employee employee = optionalEmployee.get();
-                employee.setSalary(1000);
-                employeeDAO.update(employee);
-            }
-        } catch (DataProcessingException ex){
-            System.err.println(ex.getMessage());
-            ex.printStackTrace();
-        }
+        try {
+            Employee newEmployee = new Employee("newEmployee", 100, "newPosition", 1);
+            employeeDAO.save(newEmployee);
 
-        try{
-            employeeDAO.deleteById(3);
-        } catch (DataProcessingException ex){
+            Integer newEmployeeId = newEmployee.getId();
+
+            Optional<Employee> optionalEmployee = employeeDAO.getById(newEmployeeId);
+            if (optionalEmployee.isPresent()) {
+                Employee employeeForUpdate = optionalEmployee.get();
+                employeeForUpdate.setSalary(1000);
+                employeeDAO.update(employeeForUpdate);
+            }
+
+            employeeDAO.deleteById(newEmployeeId);
+
+            employeeDAO.deleteById(newEmployeeId);
+
+        } catch (DataProcessingException ex) {
             System.err.println(ex.getMessage());
             ex.printStackTrace();
         }

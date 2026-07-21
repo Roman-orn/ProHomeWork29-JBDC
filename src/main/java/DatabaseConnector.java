@@ -12,14 +12,12 @@ public class DatabaseConnector {
 
     public static Connection getConnection() throws SQLException {
 
-        if (dataSource != null) {
-            return dataSource.getConnection();
+        if (dataSource == null) {
+            dataSource = new PGSimpleDataSource();
+            dataSource.setUrl(url);
+            dataSource.setUser(username);
+            dataSource.setPassword(password);
         }
-
-        PGSimpleDataSource dataSource = new PGSimpleDataSource();
-        dataSource.setUrl(url);
-        dataSource.setUser(username);
-        dataSource.setPassword(password);
 
         return dataSource.getConnection();
     }
